@@ -1,0 +1,49 @@
+#DTI Processing
+
+#!/bin/bash
+
+# Check if SID argument is provided
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <SID>"
+    exit 1
+fi
+
+# Subject ID provided as argument
+SID=$1
+
+# Paths to input files
+DWI_FILE="/Users/melissahansen/Desktop/DTI_preprocessed/$SID/${SID}.nii.gz"
+BVAL_FILE="/Users/melissahansen/Desktop/DTI_preprocessed/$SID/${SID}.bval"
+BVEC_FILE="/Users/melissahansen/Desktop/DTI_preprocessed/$SID/${SID}.bvec"
+
+# Output files
+FA_FILE="fa.nii.gz"
+MD_FILE="md.nii.gz"
+
+# Step 1: Perform eddy current correction and brain extraction
+
+# Navigate to the subject directory
+cd "/Users/melissahansen/Desktop/DTI_preprocessed/$SID"
+
+# Perform eddy current correction
+eddy_correct ${SID}.nii.gz corr 0
+
+# Brain extraction
+bet corr.nii.gz corr_brain -m
+
+echo "Eddy current correction and brain extraction completed."
+
+# Paths to input files after correction and extraction
+DWI_CORRECTED_FILE="corr.nii.gz"
+BVEC_CORRECTED_FILE="${SID}.bvec"
+BVAL_CORRECTED_FILE="${SID}.bval"
+
+# Step 2: Perform DTI Analysis to Compute FA and MD
+
+# Use FSL's dtifit to calculate FA and MD
+dtifit -k $DWI_CORRECTED_FILE -o $FA_FILE -m corr_brain_mask.nii.gz -r $BVEC_CORRECTED_FILE -b $BVAL_CORRECTED_FILE
+
+echo "FA and MD computation completed."
+
+#to run in terminal do ./DTI_process.sh subid
+
