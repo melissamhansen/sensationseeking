@@ -12,9 +12,9 @@ fi
 SID=$1
 
 # Paths to input files
-DWI_FILE="/Users/melissahansen/Desktop/DTI_preprocessed/$SID/${SID}.nii.gz"
-BVAL_FILE="/Users/melissahansen/Desktop/DTI_preprocessed/$SID/${SID}.bval"
-BVEC_FILE="/Users/melissahansen/Desktop/DTI_preprocessed/$SID/${SID}.bvec"
+DWI_FILE="/Users//Desktop/DTI_preprocessed/$SID/${SID}.nii.gz"
+BVAL_FILE="/Users//Desktop/DTI_preprocessed/$SID/${SID}.bval"
+BVEC_FILE="/Users//Desktop/DTI_preprocessed/$SID/${SID}.bvec"
 
 # Output files
 FA_FILE="fa.nii.gz"
